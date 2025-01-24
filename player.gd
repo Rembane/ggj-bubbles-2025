@@ -22,5 +22,14 @@ func _physics_process(delta):
 	else:
 		velocity.x = 0
 
-	# "move_and_slide" already takes delta time into account.
-	move_and_slide()
+	var pre_velocity = velocity.length()
+
+	while true:
+		var kinematic_collision = move_and_collide(velocity * delta)
+		if not kinematic_collision:
+			break
+
+		velocity = kinematic_collision.get_remainder()
+		velocity.y *= -1
+
+	velocity = velocity.normalized() * pre_velocity
