@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://u1ixbpdb4qva"]
+
+[ext_resource type="Texture2D" uid="uid://dnak3rn2kjf8" path="res://kanelbulle.png" id="1_anbj2"]
+[ext_resource type="Script" path="res://player.gd" id="1_rspqu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_02c10"]
+radius = 50.0
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_rspqu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_02c10")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_anbj2")
