@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqd33lalj72xw"]
+[gd_scene load_steps=4 format=3 uid="uid://cqd33lalj72xw"]
 
-[ext_resource type="Script" path="res://camera.gd" id="1_0rypt"]
 [ext_resource type="PackedScene" uid="uid://u1ixbpdb4qva" path="res://player.tscn" id="1_0vwuh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grg0g"]
@@ -10,41 +9,38 @@ size = Vector2(478, 20)
 
 [node name="Root" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("object")]
-position = Vector2(-2, -99)
-script = ExtResource("1_0rypt")
-object = NodePath("../player")
-
 [node name="player" parent="." instance=ExtResource("1_0vwuh")]
 position = Vector2(-2, -99)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="player"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_grg0g")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
 scale = Vector2(478, 20)
 texture = SubResource("PlaceholderTexture2D_fryxb")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2(300, -200)
 rotation = 1.5708
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource("RectangleShape2D_grg0g")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+[node name="Sprite2D" type="Sprite2D" parent="Wall"]
 scale = Vector2(478, 20)
 texture = SubResource("PlaceholderTexture2D_fryxb")
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="SlidyFloor" type="StaticBody2D" parent="."]
 position = Vector2(-500, -200)
 rotation = 0.785398
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlidyFloor"]
 shape = SubResource("RectangleShape2D_grg0g")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+[node name="Sprite2D" type="Sprite2D" parent="SlidyFloor"]
 scale = Vector2(478, 20)
 texture = SubResource("PlaceholderTexture2D_fryxb")
