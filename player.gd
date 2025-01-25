@@ -14,7 +14,6 @@ const WALK_SPEED = 200
 const BORINGNESS = 0.8
 
 func _physics_process(delta):
-	var walking = false
 	if Input.is_action_pressed("ui_left"):
 		velocity.x = -WALK_SPEED
 	elif Input.is_action_pressed("ui_right"):
