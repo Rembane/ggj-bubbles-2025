@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gtseqkhafwu4"
-path="res://.godot/imported/bubble.png-7116f013c8fa416181424de9b18e6280.ctex"
+uid="uid://cyv1hcvq0hwdt"
+path="res://.godot/imported/character_jump.png-c93c8fc57f214f0a1db90a508d903bf6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/bubble.png"
-dest_files=["res://.godot/imported/bubble.png-7116f013c8fa416181424de9b18e6280.ctex"]
+source_file="res://assets/art/character_jump.png"
+dest_files=["res://.godot/imported/character_jump.png-c93c8fc57f214f0a1db90a508d903bf6.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

@@ -10,3 +10,6 @@ func _ready():
 func _process(delta):
     if object:
         position = position.lerp(object.position, 5 * delta)
+
+    if position.distance_squared_to(object.position) > 250000:
+        position = object.position
