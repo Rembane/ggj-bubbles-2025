@@ -15,8 +15,8 @@ func _process(delta: float) -> void:
 	$InputDisplay.add_point(Vector2.ZERO)
 	$InputDisplay.add_point(input * 100)
 	
-const GRAVITY = 500.0
-const WALK_SPEED = 400
+const GRAVITY = Vector2(0, -30.0)
+const WALK_SPEED = 1000
 const DASH_SPEED = 3000
 const BORINGNESS = 0.3
 var input = Vector2()
@@ -29,7 +29,7 @@ func _physics_process(delta):
 	gravity_momentum = gravity_momentum.lerp(Vector2.ZERO, 0.1 * delta) # Terminal Velocity
 	movement_momentum = movement_momentum.lerp(Vector2.ZERO, 2 * delta)
 
-	velocity = movement_momentum.limit_length(3000) + gravity_momentum
+	velocity = movement_momentum.limit_length(1500) + gravity_momentum
 	
 	var kinematic_collision = move_and_collide(velocity * delta)
 	if kinematic_collision:
@@ -44,7 +44,7 @@ func _physics_process(delta):
 			var normal_input = input.project(surface_normal.orthogonal())
 			movement_momentum = normal_input * WALK_SPEED # Walk along plane
 			
-			gravity_momentum = -surface_normal * GRAVITY * delta # Sticky surfaces
+			gravity_momentum = -surface_normal * 200 * delta # Sticky surfaces
 			
 		elif kinematic_collision.get_collider().get_meta("bouncy", false):
 			gravity_momentum = gravity_momentum.bounce(surface_normal) * 1.3
@@ -52,8 +52,8 @@ func _physics_process(delta):
 		elif kinematic_collision.get_collider().get_meta("danger", false):
 			reset()
 	else:
-		gravity_momentum.y += GRAVITY * delta
-		movement_momentum += input * (WALK_SPEED / 10) * delta
+		gravity_momentum += GRAVITY * delta
+		movement_momentum += (input.project(GRAVITY.orthogonal())) * (WALK_SPEED * delta)
 	
 
 func _input(event):
