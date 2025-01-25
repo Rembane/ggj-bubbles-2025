@@ -22,7 +22,7 @@ func _ready() -> void:
 		print("Error: Sprite2D node not found as a child!")
 	
 	# Get the child collision shape node
-	collision_shape = $CollisionShape2D
+	collision_shape = $BubbleCollisionShape
 	if collision_shape == null:
 		print("Error: CollisionShape2D node not found as a child!")
 	
@@ -58,7 +58,7 @@ func update_scale():
 	if collision_shape:
 		var shape = collision_shape.shape
 		if shape is CircleShape2D:
-			shape.radius = current_scale * 10  # Adjust this multiplier to match the desired size
+			shape.radius = current_scale * 50  # Adjust this multiplier to match the desired size
 
 # Called during the physics process to apply forces.
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
