@@ -11,8 +11,10 @@ func _process(delta: float) -> void:
 
 const GRAVITY = 200.0
 const WALK_SPEED = 200
+const BORINGNESS = 0.8
 
 func _physics_process(delta):
+	var walking = false
 	if Input.is_action_pressed("ui_left"):
 		velocity.x = -WALK_SPEED
 	elif Input.is_action_pressed("ui_right"):
@@ -20,8 +22,11 @@ func _physics_process(delta):
 	else:
 		velocity.x = 0
 
+	if Input.is_action_pressed("ui_up"):
+		velocity.y = -GRAVITY * 1.5
+
 	var kinematic_collision = move_and_collide(velocity * delta)
 	if kinematic_collision:
-		velocity = velocity.bounce(kinematic_collision.get_normal())
+		velocity = velocity.bounce(kinematic_collision.get_normal()) * BORINGNESS
 	else:
 		velocity.y += delta * GRAVITY
