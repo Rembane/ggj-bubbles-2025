@@ -18,6 +18,15 @@ object = NodePath("../player")
 [node name="player" parent="." instance=ExtResource("1_0vwuh")]
 position = Vector2(-2, -99)
 
+[node name="VelocityMeter" type="Line2D" parent="player"]
+points = PackedVector2Array(374, -484)
+width = 1.0
+default_color = Color(1, 0, 0.0627451, 1)
+
+[node name="InputDisplay" type="Line2D" parent="player"]
+width = 1.0
+default_color = Color(0.14902, 1, 0.0627451, 1)
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
@@ -30,6 +39,7 @@ texture = SubResource("PlaceholderTexture2D_fryxb")
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(300, -200)
 rotation = 1.5708
+metadata/danger = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 shape = SubResource("RectangleShape2D_grg0g")
@@ -46,5 +56,40 @@ rotation = 0.785398
 shape = SubResource("RectangleShape2D_grg0g")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+scale = Vector2(478, 20)
+texture = SubResource("PlaceholderTexture2D_fryxb")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(300, -674)
+metadata/danger = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+shape = SubResource("RectangleShape2D_grg0g")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D4"]
+scale = Vector2(478, 20)
+texture = SubResource("PlaceholderTexture2D_fryxb")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="."]
+position = Vector2(573, -335)
+rotation = 1.57079
+metadata/danger = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5"]
+shape = SubResource("RectangleShape2D_grg0g")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D5"]
+scale = Vector2(478, 20)
+texture = SubResource("PlaceholderTexture2D_fryxb")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="."]
+position = Vector2(461, 143)
+rotation = 3.3538
+metadata/danger = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D6"]
+shape = SubResource("RectangleShape2D_grg0g")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D6"]
 scale = Vector2(478, 20)
 texture = SubResource("PlaceholderTexture2D_fryxb")
