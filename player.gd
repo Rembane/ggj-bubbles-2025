@@ -22,3 +22,8 @@ func _physics_process(delta):
 		velocity = velocity.bounce(kinematic_collision.get_normal()) * BORINGNESS
 	else:
 		velocity.y += delta * GRAVITY
+
+func _input(event):
+	if event.is_action_pressed("reset"):
+		position = Vector2.ZERO
+		velocity = Vector2.ZERO
