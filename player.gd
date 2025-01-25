@@ -4,6 +4,9 @@ const GRAVITY = 200.0
 const WALK_SPEED = 2000
 const BORINGNESS = 0.8
 
+func _ready() -> void:
+	velocity = Vector2()
+
 func _physics_process(delta):
 	velocity += Input.get_vector("move_left", "move_right", "move_up", "move_down") * WALK_SPEED * delta
 	velocity.y += GRAVITY * delta
