@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cabbom4p6kfdy"]
+
+[ext_resource type="Script" path="res://addons/godot-vim/StatusLine.gd" id="1_kronb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_76q8k"]
+
+[node name="StatusLine" type="LineEdit"]
+offset_right = 488.0
+offset_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
+mouse_filter = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_76q8k")
+text = "Evil-mode active"
+editable = false
+expand_to_text_length = true
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+flat = true
+script = ExtResource("1_kronb")
