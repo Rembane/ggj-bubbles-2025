@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqd33lalj72xw"]
+[gd_scene load_steps=5 format=3 uid="uid://cqd33lalj72xw"]
 
 [ext_resource type="Script" path="res://camera.gd" id="1_0rypt"]
 [ext_resource type="PackedScene" uid="uid://u1ixbpdb4qva" path="res://player.tscn" id="1_0vwuh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grg0g"]
 size = Vector2(478, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0y350"]
 
 [node name="Root" type="Node2D"]
 
@@ -31,6 +33,7 @@ width = 1.0
 default_color = Color(0.878988, 0.86197, 0, 1)
 
 [node name="Sticky" type="StaticBody2D" parent="."]
+position = Vector2(0, -186)
 metadata/sticky = true
 metadata/bouncy = false
 metadata/danger = false
@@ -39,6 +42,29 @@ metadata/danger = false
 shape = SubResource("RectangleShape2D_grg0g")
 
 [node name="ColorRect" type="ColorRect" parent="Sticky/CollisionShape2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.0
+offset_top = -10.0
+offset_right = 239.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.561764, 0.546802, 0.884769, 1)
+
+[node name="Sticky6" type="StaticBody2D" parent="."]
+position = Vector2(0, 3158)
+metadata/sticky = true
+metadata/bouncy = false
+metadata/danger = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sticky6"]
+shape = SubResource("RectangleShape2D_grg0g")
+
+[node name="ColorRect" type="ColorRect" parent="Sticky6/CollisionShape2D"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -195,3 +221,27 @@ offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.24199, 0.707254, 3.85046e-07, 1)
+
+[node name="Sticky5" type="StaticBody2D" parent="."]
+position = Vector2(-1, 1246)
+rotation = 0.785397
+metadata/sticky = true
+metadata/bouncy = false
+metadata/danger = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sticky5"]
+shape = SubResource("RectangleShape2D_0y350")
+
+[node name="ColorRect" type="ColorRect" parent="Sticky5/CollisionShape2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.561764, 0.546802, 0.884769, 1)
