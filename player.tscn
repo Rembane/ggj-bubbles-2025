@@ -1,17 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://u1ixbpdb4qva"]
+[gd_scene load_steps=5 format=3 uid="uid://u1ixbpdb4qva"]
 
 [ext_resource type="Texture2D" uid="uid://dnak3rn2kjf8" path="res://kanelbulle.png" id="1_anbj2"]
 [ext_resource type="Script" path="res://player.gd" id="1_rspqu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_02c10"]
-radius = 50.0
+radius = 47.0106
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fo2ua"]
+radius = 60.075
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_rspqu")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="ActualCollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_02c10")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = ExtResource("1_anbj2")
+
+[node name="OuterCollisionArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="OuterCollisionShape" type="CollisionShape2D" parent="OuterCollisionArea"]
+shape = SubResource("CircleShape2D_fo2ua")
+
+[connection signal="body_entered" from="OuterCollisionArea" to="." method="_on_outer_collision_area_body_entered"]
+[connection signal="body_exited" from="OuterCollisionArea" to="." method="_on_outer_collision_area_body_exited"]
