@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 	
 const GRAVITY = 500.0
 const WALK_SPEED = 400
-const DASH_SPEED = 5000
+const DASH_SPEED = 3000
 const BORINGNESS = 0.3
 var input = Vector2()
 var surface_normal = Vector2.UP
@@ -26,9 +26,11 @@ var movement_momentum = Vector2.ZERO
 
 func _physics_process(delta):
 	input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	gravity_momentum *= 0.999 # Terminal Velocity
-	movement_momentum *= 0.85
+	gravity_momentum = gravity_momentum.lerp(Vector2.ZERO, 0.1 * delta) # Terminal Velocity
+	movement_momentum = movement_momentum.lerp(Vector2.ZERO, 2 * delta)
 
+	velocity = movement_momentum.limit_length(3000) + gravity_momentum
+	
 	var kinematic_collision = move_and_collide(velocity * delta)
 	if kinematic_collision:
 		surface_normal = kinematic_collision.get_normal()
@@ -53,7 +55,6 @@ func _physics_process(delta):
 		gravity_momentum.y += GRAVITY * delta
 		movement_momentum += input * (WALK_SPEED / 10) * delta
 	
-	velocity = movement_momentum.limit_length(1000) + gravity_momentum
 
 func _input(event):
 	if event.is_action_pressed("dash"):
