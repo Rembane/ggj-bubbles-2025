@@ -36,7 +36,7 @@ var respawn_angle = 0.0
 
 var rng = RandomNumberGenerator.new()
 
-var stickiness = 1.2
+var stickiness = 2
 var dashes = 2
 
 var input = Vector2()
@@ -87,7 +87,7 @@ func _physics_process(delta):
 					var normal_input = input.project(surface_normal.orthogonal())
 					movement_momentum = normal_input * WALK_SPEED # Walk along plane
 					gravity_momentum = -surface_normal * (250 + stickiness) * delta # Sticky surfaces
-					stickiness -= (1 + normal_input.length_squared()) * delta
+					stickiness -= delta
 
 					$Wizard.rotation = -surface_normal.angle_to(Vector2.UP)
 					if normal_input.angle_to(surface_normal) < 0:
@@ -136,7 +136,7 @@ func _input(event):
 			movement_momentum = input.normalized() * DASH_SPEED
 			gravity_momentum = Vector2.ZERO
 			dashes -= 1
-			stickiness = 1.2
+			stickiness = 2
 			$Wizard.rotation = -input.angle_to(Vector2.UP)
 			$Wizard.play(&"jump")
 
@@ -163,7 +163,7 @@ func reset():
 	gravity_momentum = Vector2.ZERO
 	movement_momentum = Vector2.ZERO
 	velocity = Vector2.ZERO
-	stickiness = 1.2
+	stickiness = 2
 	dashes = 2
 	$Wizard.play(&"idle")
 
