@@ -20,7 +20,7 @@ texture = ExtResource("2_s6ele")
 [node name="Map1" parent="." instance=ExtResource("3_s77mc")]
 
 [node name="player" parent="." instance=ExtResource("1_0vwuh")]
-position = Vector2(240, 65)
+position = Vector2(218, -14)
 
 [node name="VelocityMeter" type="Line2D" parent="player"]
 points = PackedVector2Array(374, -484)
