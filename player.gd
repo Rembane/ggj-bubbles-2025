@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 const SFX_DASH = preload("res://assets/sound/Dash.wav")
 const SFX_RESPAWN = preload("res://assets/sound/Pick_up_item.wav")
+const SPEED_BUBBLES = preload("res://speed_bubbles.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,6 +26,7 @@ const GRAVITY = Vector2(0, -30.0)
 const WALK_SPEED = 500
 const DASH_SPEED = 3000
 const BORINGNESS = 0.3
+const STOP_SPAWNING_BUBBLES_VELOCITY = 1000
 
 var reset_timer = 0
 var respawn_point = Vector2.ZERO
@@ -107,6 +109,8 @@ func _input(event):
 
 			$AudioStreamPlayer2D.set_stream(SFX_DASH)
 			$AudioStreamPlayer2D.play()
+
+			$SpeedBubbleSummonerTimer.start()
 	elif event.is_action_pressed("reset"):
 		$AudioStreamPlayer2D.set_stream(SFX_RESPAWN)
 		$AudioStreamPlayer2D.play()
@@ -123,3 +127,14 @@ func reset():
 	velocity = Vector2.ZERO
 	stickiness = 1.2
 	dashes = 2
+
+var rng = RandomNumberGenerator.new()
+
+func _on_speed_bubble_summoner_timer_timeout() -> void:
+	var speed_bubble = SPEED_BUBBLES.instantiate()
+	speed_bubble.position = position
+	speed_bubble.constant_linear_velocity = velocity.rotated(rng.randf_range(-0.1, 0.1))
+	add_sibling(speed_bubble)
+
+	if velocity.distance_to(Vector2.ZERO) < STOP_SPAWNING_BUBBLES_VELOCITY:
+		$SpeedBubbleSummonerTimer.stop()
