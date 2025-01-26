@@ -1,20 +1,25 @@
 extends CharacterBody2D
 
+const SFX_DASH = preload("res://assets/sound/Dash.wav")
+const SFX_RESPAWN = preload("res://assets/sound/Pick_up_item.wav")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
     velocity = Vector2()
+    $Wizard.play(&"default")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-    $VelocityMeter.clear_points()
-    $VelocityMeter.add_point(Vector2.ZERO)
-    $VelocityMeter.add_point(gravity_momentum)
-    $VelocityMeter.add_point(velocity)
+    if $VelocityMeter:
+        $VelocityMeter.clear_points()
+        $VelocityMeter.add_point(Vector2.ZERO)
+        $VelocityMeter.add_point(gravity_momentum)
+        $VelocityMeter.add_point(velocity)
 
-    $InputDisplay.clear_points()
-    $InputDisplay.add_point(Vector2.ZERO)
-    $InputDisplay.add_point(input * 100)
+    if $InputDisplay:
+        $InputDisplay.clear_points()
+        $InputDisplay.add_point(Vector2.ZERO)
+        $InputDisplay.add_point(input * 100)
 
 const GRAVITY = Vector2(0, -30.0)
 const WALK_SPEED = 500
@@ -22,14 +27,16 @@ const DASH_SPEED = 3000
 const BORINGNESS = 0.3
 
 var reset_timer = 0
+var respawn_point = Vector2.ZERO
+var respawn_angle = 0.0
+
 var stickiness = 1.2
 var dashes = 2
+
 var input = Vector2()
 var surface_normal = Vector2.UP
 var gravity_momentum = Vector2.ZERO
 var movement_momentum = Vector2.ZERO
-var respawn_point = Vector2.ZERO
-var last_collision = Vector2.ZERO
 
 func _physics_process(delta):
     input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -52,9 +59,13 @@ func _physics_process(delta):
 
             if reset_timer > 0.5:
                 respawn_point = kinematic_collision.get_position()
-                $"../NormalDisplay".clear_points()
-                $"../NormalDisplay".add_point(offset)
-                $"../NormalDisplay".add_point(offset + surface_normal * 100)
+                $AudioStreamPlayer2D.set_stream(SFX_RESPAWN)
+                $AudioStreamPlayer2D.play()
+                reset_timer = 0
+                if $"../NormalDisplay":
+                    $"../NormalDisplay".clear_points()
+                    $"../NormalDisplay".add_point(offset)
+                    $"../NormalDisplay".add_point(offset + surface_normal * 100)
 
             if Input.is_action_pressed("stick"):
                 if stickiness > 0:
@@ -62,6 +73,12 @@ func _physics_process(delta):
                     movement_momentum = normal_input * WALK_SPEED # Walk along plane
                     gravity_momentum = -surface_normal * (250 + stickiness) * delta # Sticky surfaces
                     stickiness -= (1 + normal_input.length_squared()) * delta
+
+                    $Wizard.rotation = -surface_normal.angle_to(Vector2.UP)
+                    if normal_input.angle_to(surface_normal) < 0:
+                        $Wizard.flip_h = true
+                    else:
+                        $Wizard.flip_h = false
                 else:
                     gravity_momentum += surface_normal.project(GRAVITY.orthogonal()) * 10
             else:
@@ -86,7 +103,13 @@ func _input(event):
             gravity_momentum = Vector2.ZERO
             dashes -= 1
             stickiness = 1.2
+            $Wizard.rotation = -input.angle_to(Vector2.UP)
+
+            $AudioStreamPlayer2D.set_stream(SFX_DASH)
+            $AudioStreamPlayer2D.play()
     elif event.is_action_pressed("reset"):
+        $AudioStreamPlayer2D.set_stream(SFX_RESPAWN)
+        $AudioStreamPlayer2D.play()
         reset()
     elif event.is_action_pressed("quit"):
         get_tree().quit()

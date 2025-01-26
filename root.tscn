@@ -1,7 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqd33lalj72xw"]
+[gd_scene load_steps=7 format=3 uid="uid://cqd33lalj72xw"]
 
 [ext_resource type="Script" path="res://camera.gd" id="1_0rypt"]
 [ext_resource type="PackedScene" uid="uid://u1ixbpdb4qva" path="res://player.tscn" id="1_0vwuh"]
+
+[sub_resource type="Gradient" id="Gradient_covl4"]
+offsets = PackedFloat32Array(0, 0.76506, 1)
+colors = PackedColorArray(6.97896e-07, 0, 0.383395, 1, 0.0792944, 0.461852, 0.701973, 1, 0.126566, 0.737186, 0.891894, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7n8po"]
+gradient = SubResource("Gradient_covl4")
+width = 8192
+height = 3000
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grg0g"]
 size = Vector2(478, 20)
@@ -9,6 +18,11 @@ size = Vector2(478, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0y350"]
 
 [node name="Root" type="Node2D"]
+
+[node name="Background2" type="Sprite2D" parent="."]
+position = Vector2(-1, 2420)
+rotation = -1.57079
+texture = SubResource("GradientTexture2D_7n8po")
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("object")]
 position = Vector2(-2, -99)
