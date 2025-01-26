@@ -54,6 +54,7 @@ func _physics_process(delta):
 		var collision_location = Vector2(0, $CollisionShape2D.shape.radius * 2) + kinematic_collision.get_position()
 		var tilemaplayer: TileMapLayer = kinematic_collision.get_collider()
 		surface_normal = kinematic_collision.get_normal()
+		position -= kinematic_collision.get_depth() * surface_normal
 		var map_coord: Vector2 = tilemaplayer.local_to_map(kinematic_collision.get_position() - surface_normal)
 		var td: TileData = tilemaplayer.get_cell_tile_data(map_coord)
 		if not td:
@@ -62,7 +63,9 @@ func _physics_process(delta):
 
 		if td.get_custom_data("sticky"):
 			velocity -= velocity.project(surface_normal) #Cancel movement in normal direction
-
+			gravity_momentum -= gravity_momentum.project(surface_normal) #Cancel movement in normal direction
+			movement_momentum -= movement_momentum.project(surface_normal) #Cancel movement in normal direction
+			
 			if Input.is_action_pressed("set_respawn"):
 				if reset_timer == 0:
 					$Wizard.play(&"magic")
@@ -109,6 +112,10 @@ func _physics_process(delta):
 			movement_momentum = movement_momentum.bounce(surface_normal) * 1.3
 		elif td.get_custom_data("deadly"):
 			reset()
+		else:
+			velocity -= velocity.project(surface_normal) #Cancel movement in normal direction
+			gravity_momentum -= gravity_momentum.project(surface_normal) #Cancel movement in normal direction
+			movement_momentum -= movement_momentum.project(surface_normal) #Cancel movement in normal direction
 	else:
 		gravity_momentum += GRAVITY * delta
 		movement_momentum += input * (WALK_SPEED / 10) * delta
@@ -146,7 +153,7 @@ func reset():
 	velocity = Vector2.ZERO
 	stickiness = 1.2
 	dashes = 2
-  $Wizard.play(&"idle")
+	$Wizard.play(&"idle")
 
 
 func _on_speed_bubble_summoner_timer_timeout() -> void:
