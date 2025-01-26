@@ -47,7 +47,7 @@ func _physics_process(delta):
 	gravity_momentum = gravity_momentum.lerp(Vector2.ZERO, 0.1 * delta) # Terminal Velocity
 	movement_momentum = movement_momentum.lerp(Vector2.ZERO, 2 * delta)
 
-	velocity = movement_momentum.limit_length(1500) + gravity_momentum
+	velocity = movement_momentum.limit_length(1000) + gravity_momentum
 
 	var kinematic_collision = move_and_collide(velocity * delta)
 	if kinematic_collision:

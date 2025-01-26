@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://camera.gd" id="1_0rypt"]
 [ext_resource type="PackedScene" uid="uid://u1ixbpdb4qva" path="res://player.tscn" id="1_0vwuh"]
 [ext_resource type="Texture2D" uid="uid://cpah751vcbd82" path="res://assets/art/background_image.png" id="2_s6ele"]
-[ext_resource type="PackedScene" path="res://map1.tscn" id="3_s77mc"]
+[ext_resource type="PackedScene" uid="uid://d2iyccetubhe0" path="res://map1.tscn" id="3_s77mc"]
 
 [node name="Root" type="Node2D"]
 
