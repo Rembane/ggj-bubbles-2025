@@ -1,13 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://u1ixbpdb4qva"]
+[gd_scene load_steps=13 format=3 uid="uid://u1ixbpdb4qva"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rspqu"]
 [ext_resource type="Texture2D" uid="uid://gtseqkhafwu4" path="res://assets/art/bubble.png" id="2_a8lng"]
 [ext_resource type="Texture2D" uid="uid://ckxxlvs34w1tg" path="res://assets/art/character_idle1.png" id="3_ewp4e"]
 [ext_resource type="Texture2D" uid="uid://bojwxscgdcybm" path="res://assets/art/character_idle2.png" id="4_ckqnp"]
+[ext_resource type="Texture2D" uid="uid://cyv1hcvq0hwdt" path="res://assets/art/character_jump.png" id="5_8wj5t"]
 [ext_resource type="Texture2D" uid="uid://do5ulm3sfe3bp" path="res://assets/art/character_idle3.png" id="5_k5f0n"]
+[ext_resource type="Texture2D" uid="uid://dnbgyhoe6pdg6" path="res://assets/art/character_magic1.png" id="6_rv5m6"]
+[ext_resource type="Texture2D" uid="uid://ckepw1fqm26m0" path="res://assets/art/character_magic2.png" id="7_hxwc8"]
+[ext_resource type="Texture2D" uid="uid://bbvnqp780r0yf" path="res://assets/art/character_magic3.png" id="8_rnjd3"]
+[ext_resource type="Texture2D" uid="uid://c1su0xnubrxg6" path="res://assets/art/character_magic4.png" id="9_mj4ti"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_02c10"]
-radius = 50.0
+radius = 25.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5qtbe"]
 animations = [{
@@ -22,22 +27,71 @@ animations = [{
 "texture": ExtResource("5_k5f0n")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_8wj5t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_k5f0n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ewp4e")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_rv5m6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hxwc8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rnjd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_mj4ti")
+}],
+"loop": false,
+"name": &"magic",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_8wj5t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ckqnp")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
 }]
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_rspqu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_02c10")
 
+[node name="Wizard" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_5qtbe")
+animation = &"magic"
+autoplay = "idle"
+frame = 3
+frame_progress = 1.0
+
 [node name="Bubble" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_a8lng")
 
-[node name="Wizard" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_5qtbe")
-frame = 1
-frame_progress = 0.99816
-
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="animation_finished" from="Wizard" to="." method="_on_wizard_animation_finished"]
