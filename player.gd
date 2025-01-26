@@ -26,7 +26,7 @@ const GRAVITY = Vector2(0, -30.0)
 const WALK_SPEED = 500
 const DASH_SPEED = 3000
 const BORINGNESS = 0.3
-const STOP_SPAWNING_BUBBLES_VELOCITY = 1000
+const STOP_SPAWNING_BUBBLES_VELOCITY = 1000000
 
 var reset_timer = 0
 var respawn_point = Vector2.ZERO
@@ -65,7 +65,6 @@ func _physics_process(delta):
 			velocity -= velocity.project(surface_normal) #Cancel movement in normal direction
 			gravity_momentum -= gravity_momentum.project(surface_normal) #Cancel movement in normal direction
 			movement_momentum -= movement_momentum.project(surface_normal) #Cancel movement in normal direction
-			
 			if Input.is_action_pressed("set_respawn"):
 				if reset_timer == 0:
 					$Wizard.play(&"magic")
@@ -121,6 +120,13 @@ func _physics_process(delta):
 		movement_momentum += input * (WALK_SPEED / 10) * delta
 		reset_timer = 0
 
+	if velocity.length_squared() >= STOP_SPAWNING_BUBBLES_VELOCITY:
+		var speed_bubble = SPEED_BUBBLES.instantiate()
+		speed_bubble.position = position
+		speed_bubble.constant_linear_velocity = velocity.rotated(rng.randf_range(-0.1, 0.1))
+		speed_bubble.set_scale(Vector2.ONE * rng.randf_range(0.15, 0.4))
+		add_sibling(speed_bubble)
+
 func _input(event):
 	if event.is_action_pressed("dash"):
 		input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -134,8 +140,6 @@ func _input(event):
 
 			$AudioStreamPlayer2D.set_stream(SFX_DASH)
 			$AudioStreamPlayer2D.play()
-
-			$SpeedBubbleSummonerTimer.start()
 	elif event.is_action_pressed("reset"):
 		$AudioStreamPlayer2D.set_stream(SFX_RESPAWN)
 		$AudioStreamPlayer2D.play()
@@ -154,17 +158,6 @@ func reset():
 	stickiness = 1.2
 	dashes = 2
 	$Wizard.play(&"idle")
-
-
-func _on_speed_bubble_summoner_timer_timeout() -> void:
-	var speed_bubble = SPEED_BUBBLES.instantiate()
-	speed_bubble.position = position
-	speed_bubble.constant_linear_velocity = velocity.rotated(rng.randf_range(-0.1, 0.1))
-	speed_bubble.set_scale(Vector2.ONE * rng.randf_range(0.15, 0.4))
-	add_sibling(speed_bubble)
-
-	if velocity.distance_to(Vector2.ZERO) < STOP_SPAWNING_BUBBLES_VELOCITY:
-		$SpeedBubbleSummonerTimer.stop()
 
 func _on_wizard_animation_finished():
 	$Wizard.play("idle")
