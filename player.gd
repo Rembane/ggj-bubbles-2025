@@ -134,6 +134,7 @@ func _on_speed_bubble_summoner_timer_timeout() -> void:
 	var speed_bubble = SPEED_BUBBLES.instantiate()
 	speed_bubble.position = position
 	speed_bubble.constant_linear_velocity = velocity.rotated(rng.randf_range(-0.1, 0.1))
+	speed_bubble.set_scale(Vector2.ONE * rng.randf_range(0.15, 0.4))
 	add_sibling(speed_bubble)
 
 	if velocity.distance_to(Vector2.ZERO) < STOP_SPAWNING_BUBBLES_VELOCITY:

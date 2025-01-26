@@ -43,6 +43,6 @@ frame_progress = 0.99816
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="SpeedBubbleSummonerTimer" type="Timer" parent="."]
-wait_time = 0.05
+wait_time = 0.01
 
 [connection signal="timeout" from="SpeedBubbleSummonerTimer" to="." method="_on_speed_bubble_summoner_timer_timeout"]
