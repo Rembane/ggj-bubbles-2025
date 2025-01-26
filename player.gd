@@ -32,6 +32,8 @@ var reset_timer = 0
 var respawn_point = Vector2.ZERO
 var respawn_angle = 0.0
 
+var rng = RandomNumberGenerator.new()
+
 var stickiness = 1.2
 var dashes = 2
 
@@ -49,14 +51,21 @@ func _physics_process(delta):
 
 	var kinematic_collision = move_and_collide(velocity * delta)
 	if kinematic_collision:
+		var collision_location = Vector2(0, $CollisionShape2D.shape.radius * 2) + kinematic_collision.get_position()
+		var tilemaplayer: TileMapLayer = kinematic_collision.get_collider()
 		surface_normal = kinematic_collision.get_normal()
-		var offset = Vector2(0, $CollisionShape2D.shape.radius * 2) + kinematic_collision.get_position()
+		var map_coord: Vector2 = tilemaplayer.local_to_map(kinematic_collision.get_position() - surface_normal)
+		var td: TileData = tilemaplayer.get_cell_tile_data(map_coord)
+		if not td:
+			return
 		dashes = 2
 
-		if kinematic_collision.get_collider().get_meta("sticky", false):
+		if td.get_custom_data("sticky"):
 			velocity -= velocity.project(surface_normal) #Cancel movement in normal direction
 
 			if Input.is_action_pressed("set_respawn"):
+				if reset_timer == 0:
+					$Wizard.play(&"magic")
 				reset_timer += delta
 
 			if reset_timer > 0.5:
@@ -66,8 +75,8 @@ func _physics_process(delta):
 				reset_timer = 0
 				if $"../NormalDisplay":
 					$"../NormalDisplay".clear_points()
-					$"../NormalDisplay".add_point(offset)
-					$"../NormalDisplay".add_point(offset + surface_normal * 100)
+					$"../NormalDisplay".add_point(collision_location)
+					$"../NormalDisplay".add_point(collision_location + surface_normal * 100)
 
 			if Input.is_action_pressed("stick"):
 				if stickiness > 0:
@@ -81,16 +90,24 @@ func _physics_process(delta):
 						$Wizard.flip_h = true
 					else:
 						$Wizard.flip_h = false
+					if normal_input.length_squared() != 0:
+						$Wizard.play(&"walk")
+					elif $Wizard.animation == &"walk":
+						$Wizard.play(&"idle")
 				else:
 					gravity_momentum += surface_normal.project(GRAVITY.orthogonal()) * 10
+					if $Wizard.animation == &"walk":
+						$Wizard.play(&"idle")
 			else:
 				gravity_momentum = gravity_momentum.bounce(surface_normal) * 0.1
 				movement_momentum = movement_momentum.bounce(surface_normal) * 0.1
+				if $Wizard.animation == &"walk":
+					$Wizard.play(&"idle")
 
-		elif kinematic_collision.get_collider().get_meta("bouncy", false):
+		elif td.get_custom_data("bouncy"):
 			gravity_momentum = gravity_momentum.bounce(surface_normal) * 1.3
 			movement_momentum = movement_momentum.bounce(surface_normal) * 1.3
-		elif kinematic_collision.get_collider().get_meta("danger", false):
+		elif td.get_custom_data("deadly"):
 			reset()
 	else:
 		gravity_momentum += GRAVITY * delta
@@ -106,6 +123,7 @@ func _input(event):
 			dashes -= 1
 			stickiness = 1.2
 			$Wizard.rotation = -input.angle_to(Vector2.UP)
+			$Wizard.play(&"jump")
 
 			$AudioStreamPlayer2D.set_stream(SFX_DASH)
 			$AudioStreamPlayer2D.play()
@@ -119,6 +137,7 @@ func _input(event):
 		get_tree().quit()
 	elif event.is_action_released("set_respawn"):
 		reset_timer = 0
+		$Wizard.play(&"idle")
 
 func reset():
 	position = respawn_point
@@ -127,8 +146,8 @@ func reset():
 	velocity = Vector2.ZERO
 	stickiness = 1.2
 	dashes = 2
+  $Wizard.play(&"idle")
 
-var rng = RandomNumberGenerator.new()
 
 func _on_speed_bubble_summoner_timer_timeout() -> void:
 	var speed_bubble = SPEED_BUBBLES.instantiate()
@@ -139,3 +158,6 @@ func _on_speed_bubble_summoner_timer_timeout() -> void:
 
 	if velocity.distance_to(Vector2.ZERO) < STOP_SPAWNING_BUBBLES_VELOCITY:
 		$SpeedBubbleSummonerTimer.stop()
+
+func _on_wizard_animation_finished():
+	$Wizard.play("idle")
