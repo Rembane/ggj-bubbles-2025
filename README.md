@@ -12,7 +12,7 @@ Options closes the game
 You can only dash twice before you need to touch a surface again, and you can only cling for a little while before you need to dash again. Speed is key! Try to get to the bottom as quickly as possible.
 
 HINTS:
-It's easier to move along a surface while clinging to it
+It's easier to move along a surface while clinging to it  
 Corners are real weird
 
 
