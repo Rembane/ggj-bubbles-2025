@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://u1ixbpdb4qva"]
+[gd_scene load_steps=14 format=3 uid="uid://u1ixbpdb4qva"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rspqu"]
 [ext_resource type="Texture2D" uid="uid://gtseqkhafwu4" path="res://assets/art/bubble.png" id="2_a8lng"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://ckepw1fqm26m0" path="res://assets/art/character_magic2.png" id="7_hxwc8"]
 [ext_resource type="Texture2D" uid="uid://bbvnqp780r0yf" path="res://assets/art/character_magic3.png" id="8_rnjd3"]
 [ext_resource type="Texture2D" uid="uid://c1su0xnubrxg6" path="res://assets/art/character_magic4.png" id="9_mj4ti"]
+[ext_resource type="AudioStream" uid="uid://dliu7swoy6k6o" path="res://assets/sound/BG_Mockup.wav" id="11_t4rly"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_02c10"]
 radius = 25.0
@@ -93,5 +94,9 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_a8lng")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_t4rly")
+autoplay = true
 
 [connection signal="animation_finished" from="Wizard" to="." method="_on_wizard_animation_finished"]

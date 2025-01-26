@@ -3,12 +3,14 @@ extends CharacterBody2D
 const SFX_DASH = preload("res://assets/sound/Dash.wav")
 const SFX_RESPAWN = preload("res://assets/sound/Pick_up_item.wav")
 const SPEED_BUBBLES = preload("res://speed_bubbles.tscn")
+const BGS = preload("res://assets/sound/BG_Mockup.wav")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	velocity = Vector2()
+	respawn_point = position
 	$Wizard.play(&"default")
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if $VelocityMeter:
@@ -29,7 +31,7 @@ const BORINGNESS = 0.3
 const STOP_SPAWNING_BUBBLES_VELOCITY = 50000
 
 var reset_timer = 0
-var respawn_point = Vector2.ZERO
+var respawn_point
 var respawn_angle = 0.0
 
 var rng = RandomNumberGenerator.new()
