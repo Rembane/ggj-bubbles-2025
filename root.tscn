@@ -23,15 +23,18 @@ texture = ExtResource("2_s6ele")
 position = Vector2(218, -14)
 
 [node name="VelocityMeter" type="Line2D" parent="player"]
+visible = false
 points = PackedVector2Array(374, -484)
 width = 1.0
 default_color = Color(1, 0, 0.0627451, 1)
 
 [node name="InputDisplay" type="Line2D" parent="player"]
+visible = false
 width = 1.0
 default_color = Color(0.14902, 1, 0.0627451, 1)
 
 [node name="NormalDisplay" type="Line2D" parent="."]
+visible = false
 position = Vector2(-2, -99)
 points = PackedVector2Array(222, 923)
 default_color = Color(0.878988, 0.86197, 0, 1)

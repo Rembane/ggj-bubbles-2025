@@ -26,7 +26,7 @@ const GRAVITY = Vector2(0, -30.0)
 const WALK_SPEED = 500
 const DASH_SPEED = 3000
 const BORINGNESS = 0.3
-const STOP_SPAWNING_BUBBLES_VELOCITY = 1000000
+const STOP_SPAWNING_BUBBLES_VELOCITY = 50000
 
 var reset_timer = 0
 var respawn_point = Vector2.ZERO
@@ -149,6 +149,12 @@ func _input(event):
 	elif event.is_action_released("set_respawn"):
 		reset_timer = 0
 		$Wizard.play(&"idle")
+	elif event.is_action_pressed("screenshot"):
+		var date = Time.get_date_string_from_system().replace(".","_") 
+		var time :String = Time.get_time_string_from_system().replace(":","")
+		var screenshot_path = "user://" + "screenshot_" + date+ "_" + time + ".jpg" # the path for our screenshot.
+		var image = get_viewport().get_texture().get_image() # We get what our player sees
+		image.save_jpg(screenshot_path)
 
 func reset():
 	position = respawn_point
